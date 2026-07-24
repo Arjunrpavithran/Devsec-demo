@@ -52,12 +52,13 @@ pipeline {
 				"""
 			}
 		}
-		stage ('owasp'){
-			steps {
-				sh"""
-				docker run --rm -v ${WORKSPACE}:/src -v /tmp:/db -e VDB_HOME=/db ghcr.io/owasp-dep-scan/dep-scan --src /src --reports-dir /src/reports
-				"""
-			}
-		}
+        stages {
+            stage('OWASP Dependency Check') {
+                steps {
+                    dependencyCheck odcInstallation: 'OWASP-DC',
+						additionalArguments: '--format XML --scan .'
+                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                    }
+         }
     }
 }
