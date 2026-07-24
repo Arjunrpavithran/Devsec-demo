@@ -38,7 +38,7 @@ pipeline {
 		stage('Docker image build'){
 			steps{
 				sh """
-					docker build -f ${WORKSPACE} -t ${app_name}: ${WORKSPACE}
+					docker build -f ${WORKSPACE} -t ${app_name} ${WORKSPACE}
 			    """
 			}
 		}
