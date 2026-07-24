@@ -1,29 +1,38 @@
 pipeline {
-		agent any 
-		
-		environment {
-			DEPLOY_ENV = 'qa'
-			sonar_token = 'sqa_c4f6e3a8ba0bb09897b8878db8595cc5948658a9'
-			sonar_host = 'http://host.docker.internal:9000'
-			project_name = 'devsecops-demo-app'
-		}
-		triggers {
-			cron('H H * * 1-5')
-		}
-		
-		stages {
-			stage('Checkout Code') {
-				checkout scm
+    agent any
+
+    environment {
+        DEPLOY_ENV  = 'qa'
+        sonar_token = 'sqa_c4f6e3a8ba0bb09897b8878db8595cc5948658a9'
+        sonar_host  = 'http://host.docker.internal:9000'
+        project_name = 'devsecops-demo-app'
+    }
+
+    triggers {
+        cron('H H * * 1-5')
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                checkout scm
             }
-			
-			stage ('running Sonar') {
-				steps {
-				sh """
-					docker run --rm -v \${WORKSPACE}:/usr/src" sonarsource/sonar-scanner-cli `
-				   -Dsonar.projectKey= "${project_name}"
-                   -Dsonar.host.url="${sonar_host}"
-                   -Dsonar.login="${sonar_token}"
-			{
-		}	
-		
-	}		
+        }
+
+        stage('Run SonarQube Scan') {
+            steps {
+                sh """
+                    docker run --rm \
+                        -v ${WORKSPACE}:/usr/src \
+                        sonarsource/sonar-scanner-cli \
+                        -Dsonar.projectKey=${project_name} \
+                        -Dsonar.sources=/usr/src \
+                        -Dsonar.host.url=${sonar_host} \
+                        -Dsonar.login=${sonar_token}
+                """
+            }
+        }
+
+    }
+}
