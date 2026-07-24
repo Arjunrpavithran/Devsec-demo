@@ -19,8 +19,6 @@ pipeline {
                 checkout scm
             }
         }
-		stage('docker install'){
-			steps{
 			
         stage('Run SonarQube Scan') {
             steps {
@@ -38,7 +36,7 @@ pipeline {
 		stage('Docker image build'){
 			steps{
 				sh """
-					docker build -f ${WORKSPACE} -t ${app_name} .
+					docker build -f ${WORKSPACE} -t ${app_name}: ${WORKSPACE}
 			    """
 			}
 		}
