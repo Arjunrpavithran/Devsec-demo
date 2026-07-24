@@ -40,7 +40,7 @@ pipeline {
 				sh """
 					docker build -f ${WORKSPACE} -t ${app_name} .
 			    """
-				}
-			}	
+			}
+		}
     }
 }
