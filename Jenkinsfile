@@ -45,5 +45,13 @@ pipeline {
 			    """
 			}
 		}
+		stage ('Trivy image scan'){
+			steps{
+				sh """
+					trivy image ${app_name}
+				"""
+			}
+		}
+		
     }
 }
