@@ -6,6 +6,8 @@ pipeline {
         sonar_token = 'sqa_c4f6e3a8ba0bb09897b8878db8595cc5948658a9'
         sonar_host  = 'http://host.docker.internal:9000'
         project_name = 'devsecops-demo-app'
+		app_name = 'devsec-test'
+		
     }
 
     triggers {
