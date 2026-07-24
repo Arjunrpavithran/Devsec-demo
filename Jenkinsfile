@@ -53,7 +53,7 @@ pipeline {
 			}
 		}
 		stage ('owasp'){
-			steps{
+			steps {
 				sh"""
 				docker run --rm -v ${WORKSPACE}:/src -v /tmp:/db -e VDB_HOME=/db ghcr.io/owasp-dep-scan/dep-scan --src /src --reports-dir /src/reports
 				"""
