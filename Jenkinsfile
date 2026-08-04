@@ -50,11 +50,11 @@ pipeline {
 		// }
 		stage ('Deploy to kube'){
 			steps{
-				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'docker-desktop-context')]) {
+				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
 			    sh"""
 				mkdir -p ~/.docker
-                cp "$docker-desktop-context" ~/.docker/config.json
-			    echo 'kubectl get namespace'
+                cp "$DOCKER_CONFIG_FILE-desktop-context" ~/.docker/config.json
+			    'kubectl get namespace'
 			    """
 				}
 			}
