@@ -69,7 +69,6 @@ pipeline {
 				chown -R jenkins:jenkins /var/lib/jenkins/.kube
 			    '/usr/local/bin/kubectl get namespace'
 			    '''
-						}
 					}
 				}
 			}
