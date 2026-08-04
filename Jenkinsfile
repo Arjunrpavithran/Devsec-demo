@@ -51,11 +51,11 @@ pipeline {
 		stage ('Deploy to kube'){
 			steps{
 				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
-			    sh"""
+			    sh'''
 				mkdir -p ~/.docker
                 cp "$DOCKER_CONFIG_FILE-desktop-context" ~/.docker/config.json
 			    'kubectl get namespace'
-			    """
+			    '''
 				}
 			}
 		}
