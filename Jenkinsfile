@@ -59,19 +59,6 @@ pipeline {
 				}
 				
 			}
-		stage ('Deploy to kube'){
-			steps{
-				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
-			    sh'''
-				mkdir -p ~/.docker
-                cp "$DOCKER_CONFIG_FILE" ~/.kube/config
-				cp ~/.kube/config /var/lib/jenkins/.kube/config
-				chown -R jenkins:jenkins /var/lib/jenkins/.kube
-			    '/usr/local/bin/kubectl get namespace'
-			    '''
-					}
-				}
-			}
 		}
 	}
 }
