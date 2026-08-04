@@ -54,7 +54,7 @@ pipeline {
 			    sh'''
 				mkdir -p ~/.docker
                 cp "$DOCKER_CONFIG_FILE" ~/.docker/config.json
-			    'kubectl get namespace'
+			    '/usr/local/bin/kubectl get namespace'
 			    '''
 				}
 			}
