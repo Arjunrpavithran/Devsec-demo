@@ -63,7 +63,7 @@ pipeline {
 				withCredentials([usernamePassword(credentialsId: 'docker_hub_cred', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )]){
 				sh'''
 				docker images
-				docker login -u $"docker_username":"docker_password"
+				echo "$docker_password" | docker login -u "$docker_username" --password-stdin
 				docker tag ${app_name} ${docker_username}/${app_name}
 				docker push ${docker_username}/${app_name}
 				'''
