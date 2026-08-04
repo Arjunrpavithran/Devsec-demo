@@ -53,7 +53,7 @@ pipeline {
 				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
 			    sh'''
 				mkdir -p ~/.docker
-                cp "$DOCKER_CONFIG_FILE-desktop-context" ~/.docker/config.json
+                cp "$DOCKER_CONFIG_FILE" ~/.docker/config.json
 			    'kubectl get namespace'
 			    '''
 				}
