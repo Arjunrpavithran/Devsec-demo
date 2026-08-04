@@ -49,8 +49,8 @@ pipeline {
 		// 	}
 		// }
 		stage ('Deploy to kube'){
-			withCredentials([file(credentialsId: 'docker_desktop_config')]) {
 			steps{
+				withCredentials([file(credentialsId: 'docker_desktop_config')]) {
 			    sh"""
 			    echo 'kubectl get namespace'
 			    """
