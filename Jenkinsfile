@@ -60,11 +60,14 @@ pipeline {
 		// 	}
 		stage('docker push'){
 			steps{
-				// withCredentials([usernamePassword(credentialsId: 'docker_login', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )]){
+				withCredentials([usernamePassword(credentialsId: 'docker_hub_cred', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )]){
 				sh'''
 				docker images
-				docker push ${app_name}
+				docker login -u $"docker_username":"docker_password"
+				docker tag ${app_name} ${docker_username}/${app_name}
+				docker push ${docker_username}/${app_name}
 				'''
+				}
 				
 			}
 		}
