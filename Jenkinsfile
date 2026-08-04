@@ -10,10 +10,6 @@ pipeline {
 		
     }
 
-    triggers {
-        cron('H H * * 1-5')
-    }
-
     stages {
 
         stage('Checkout Code') {
@@ -22,19 +18,19 @@ pipeline {
             }
         }
 			
-        stage('Run SonarQube Scan') {
-            steps {
-                sh """
-                    docker run --rm \
-                        -v ${WORKSPACE}:/usr/src \
-                        sonarsource/sonar-scanner-cli \
-                        -Dsonar.projectKey=${project_name} \
-                        -Dsonar.sources=/usr/src \
-                        -Dsonar.host.url=${sonar_host} \
-                        -Dsonar.login=${sonar_token}
-                """
-            }
-        }
+        // stage('Run SonarQube Scan') {
+        //     steps {
+        //         sh """
+        //             docker run --rm \
+        //                 -v ${WORKSPACE}:/usr/src \
+        //                 sonarsource/sonar-scanner-cli \
+        //                 -Dsonar.projectKey=${project_name} \
+        //                 -Dsonar.sources=/usr/src \
+        //                 -Dsonar.host.url=${sonar_host} \
+        //                 -Dsonar.login=${sonar_token}
+        //         """
+        //     }
+        // }
 		stage('Docker image build'){
 			steps{
 				sh """
@@ -45,20 +41,20 @@ pipeline {
 			    """
 			}
 		}
-		stage ('Trivy image scan'){
+		// stage ('Trivy image scan'){
+		// 	steps{
+		// 		sh """
+		// 			trivy image ${app_name}
+		// 		"""
+		// 	}
+		// }
+		stage ('Deploy to kube'){
+			withCredentials([file(credentialsId: 'docker_desktop_config')]) {
 			steps{
-				sh """
-					trivy image ${app_name}
-				"""
+			    sh"""
+			    echo 'kubectl get namespace'
+			    """
 			}
 		}
-        stages {
-            stage('OWASP Dependency Check') {
-                steps {
-                    dependencyCheck odcInstallation: 'OWASP-DC',
-						additionalArguments: '--format XML --scan .'
-                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                    }
-         }
-    }
+	}
 }
