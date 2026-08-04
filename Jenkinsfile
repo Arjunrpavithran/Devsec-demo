@@ -54,6 +54,7 @@ pipeline {
 			    sh"""
 			    echo 'kubectl get namespace'
 			    """
+				}
 			}
 		}
 	}
