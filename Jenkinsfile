@@ -59,12 +59,13 @@ pipeline {
 		// 		}
 		// 	}
 		stage('docker push'){
-			steps{withCredentials([usernamePassword(credentialsId: 'docker_login', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )])
+			steps{
+				withCredentials([usernamePassword(credentialsId: 'docker_login', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )]){
 				sh'''
 				docker images
 				docker push ${app_name}
 				'''
-			  
+				}
 			}
 		}
 	}
