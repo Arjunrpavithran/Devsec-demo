@@ -64,7 +64,7 @@ pipeline {
 				docker images
 				docker push ${app_name}
 				'''
-			  }
+			  
 			}
 		}
 	}
