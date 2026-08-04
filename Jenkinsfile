@@ -48,15 +48,23 @@ pipeline {
 		// 		"""
 		// 	}
 		// }
-		stage ('Deploy to kube'){
-			steps{
-				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
-			    sh'''
-				mkdir -p ~/.docker
-                cp "$DOCKER_CONFIG_FILE" ~/.docker/config.json
-			    '/usr/local/bin/kubectl get namespace'
-			    '''
-				}
+		// stage ('Deploy to kube'){
+		// 	steps{
+		// 		withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
+		// 	    sh'''
+		// 		mkdir -p ~/.docker
+        //         cp "$DOCKER_CONFIG_FILE" ~/.docker/config.json
+		// 	    '/usr/local/bin/kubectl get namespace'
+		// 	    '''
+		// 		}
+		// 	}
+		stage('docker push'){
+			steps{withCredentials([usernamePassword(credentialsId: 'docker_login', usernameVariable: 'docker_username', passwordVariable: 'docker_password' )])
+				sh'''
+				docker images
+				docker push ${app_name}
+				'''
+			  }
 			}
 		}
 	}
