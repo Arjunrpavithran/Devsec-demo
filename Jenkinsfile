@@ -63,15 +63,7 @@ pipeline {
 		stage('Deploy to kube'){
 			steps{
 				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
-                    sh '''
-                        echo "Credential path: $DOCKER_CONFIG_FILE"
-        
-                        echo "===== First 20 lines ====="
-                        head -20 "$DOCKER_CONFIG_FILE"
-        
-                        echo "===== Visible control characters ====="
-                        cat -A "$DOCKER_CONFIG_FILE"
-        
+                    sh '''        
                         mkdir -p ~/.kube
                         cp "$DOCKER_CONFIG_FILE" ~/.kube/config
         
