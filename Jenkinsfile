@@ -63,13 +63,12 @@ pipeline {
 		stage('Deploy to kube'){
 			steps{
 				withCredentials([file(credentialsId: 'docker_desktop_config', variable: 'DOCKER_CONFIG_FILE')]) {
-				sh'''
-            	cp ${DOCKER_CONFIG_FILE} ~/.kube/config
-				chmod 600 /root/.kube/config
-				cp ~/.kube/config /var/lib/jenkins/.kube/config
-				chown -R jenkins:jenkins /var/lib/jenkins/.kube
-				'/usr/local/bin/kubectl get namespace'
-				sh'''
+ 				    sh '''
+                    mkdir -p ~/.kube
+                    cp "$DOCKER_CONFIG_FILE" ~/.kube/config
+                    chmod 600 ~/.kube/config
+                    kubectl get namespaces
+	            	'''
 				}
 			}
 		}
